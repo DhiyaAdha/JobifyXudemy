@@ -1,3 +1,6 @@
+//packages async errors
+import 'express-async-errors';
+
 // dotenv
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -38,6 +41,7 @@ app.use('*', (req, res) => {
   res.status(404).json({ msg: "Not Found" });
 });
 
+// Error handler
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ error: "Something went wrong" });
