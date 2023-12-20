@@ -1,6 +1,8 @@
 // Import Mongoose library
 import mongoose from "mongoose";
 
+import { JOB_STATUS, JOB_TYPE} from "../utils/constants.js";
+
 // Buat skema pekerjaan (Job Schema)
 const jobSchema = new mongoose.Schema(
   {
@@ -8,13 +10,13 @@ const jobSchema = new mongoose.Schema(
     position: String,
     jobStatus: {
       type: String,
-      enum: ["interview", "declined", "pending"],
-      default: "pending",
+      enum: Object.values(JOB_STATUS), // Perubahan disini
+      default: JOB_STATUS.PENDING,
     },
     jobType: {
       type: String,
-      enum: ["full time", "part time", "internship"],
-      default: "full time",
+      enum: Object.values(JOB_TYPE), // Perubahan disini
+      default: JOB_TYPE.FULL_TIME,
     },
     jobLocation: {
       type: String,

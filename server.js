@@ -1,61 +1,43 @@
-//packages async errors
-import 'express-async-errors';
+// packages async errors
+import "express-async-errors";
 
 // dotenv
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 // Express & Morgan
 import express from "express";
-const app = express();
 import morgan from "morgan";
-import { body, validationResult } from 'express-validator';
-
-// Routes
-import jobRouter from "./routes/jobRouter.js";
 
 // Mongoose
 import mongoose from "mongoose";
 
 // Middleware
-import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
-import e from 'express';
+import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
+
+import jobRouter from "./routes/jobRouter.js";
+
+const app = express();
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(morgan("dev"));
 app.use(express.json());
+
+app.get("/api/v1/test", (req, res) => {
+  res.json({ msg: "test route" });
+});
+
+// Use jobRouter
+app.use("/api/v1/jobs", jobRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/api/v1/test", [
-  body('name')
-    .notEmpty()
-    .withMessage('Name is required')
-    .isLength({ min: 50 })
-    .withMessage('Name must be at least 50 characters long')],
-  (req, res, next) => {
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map((error) =>
-      error.msg);
-      return res.status(400).json({ errors: errorMessages })
-  }
-  next();
-},
-  (req, res) => {
-  const { name } = req.body;
-  res.json({ msg: `hello ${name}` });
-});
-
-// Router functions
-app.use("/api/v1/jobs", jobRouter);
-
-app.use('*', (req, res) => {
+// 404 Not Found handler
+app.use("*", (req, res) => {
   res.status(404).json({ msg: "Not Found" });
 });
 
@@ -73,5 +55,3 @@ try {
   console.log(error);
   process.exit(1);
 }
-
-
