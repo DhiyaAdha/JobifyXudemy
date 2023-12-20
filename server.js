@@ -13,8 +13,11 @@ import morgan from "morgan";
 // Routes
 import jobRouter from "./routes/jobRouter.js";
 
-// mongoose
+// Mongoose
 import mongoose from "mongoose";
+
+// Middleware
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
 
 
 if (process.env.NODE_ENV === "development") {
@@ -42,10 +45,7 @@ app.use('*', (req, res) => {
 });
 
 // Error handler
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).json({ error: "Something went wrong" });
-});
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5100;
 
