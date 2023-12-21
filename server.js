@@ -16,6 +16,7 @@ import mongoose from "mongoose";
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
 import jobRouter from "./routes/jobRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 
@@ -29,8 +30,9 @@ app.get("/api/v1/test", (req, res) => {
   res.json({ msg: "test route" });
 });
 
-// Use jobRouter
+// Url Router API
 app.use("/api/v1/jobs", jobRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
