@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import User from '../models/UserModels.js';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '../utils/passwordUtils.js';
 
 
 export const register = async (req, res) => {
@@ -8,8 +8,7 @@ export const register = async (req, res) => {
     req.body.role = isFirstAccount ? 'admin' : 'user';
 
     //protect pasword (hash)
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await hashPassword(req.body.password);
     req.body.password = hashedPassword;
 
     const user = await User.create(req.body);
