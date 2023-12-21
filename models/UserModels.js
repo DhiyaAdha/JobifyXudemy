@@ -1,6 +1,6 @@
 import mangoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mangoose.Schema({
   name: String,
   email: String,
   password: String,
@@ -19,4 +19,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("User", UserSchema);
+export default mangoose.model("User", UserSchema);

@@ -1,7 +1,11 @@
-export const register = async (req, res, next) => {
-    res.send('register');
+import { StatusCodes } from 'http-status-codes';
+import User from '../models/UserModels.js';
+
+export const register = async (req, res) => {
+    const user = await User.create(req.body);
+    res.status(StatusCodes.CREATED).json({ user });
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
     res.send('login');
 };
