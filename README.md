@@ -2470,7 +2470,6 @@ npm i express-validator@7.0.1
 #### Test Route
 
 server.js
-
 ```js
 app.post('/api/v1/test', (req, res) => {
   const { name } = req.body;
